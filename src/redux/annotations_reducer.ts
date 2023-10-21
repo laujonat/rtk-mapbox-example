@@ -1,11 +1,11 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {}
+const initialState = {};
 
 const annotationsSlice = createSlice({
-    name: 'annotations',
-    initialState,
-    reducers: {},
+  name: "annotations",
+  initialState,
+  reducers: {},
 });
 
 export const { actions } = annotationsSlice;
