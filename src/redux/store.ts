@@ -1,8 +1,9 @@
-import { configureStore } from "@reduxjs/toolkit";
-import rootReducer from "./reducers";
-import logger from "redux-logger";
 import { IFiltersState } from "reducers/filtersReducer";
-import { IAnnotationState } from "reducers/annotationsReducer";
+import logger from "redux-logger";
+
+import { configureStore } from "@reduxjs/toolkit";
+
+import rootReducer from "./reducers";
 
 export interface IAppState {
   filter: IFiltersState;
@@ -24,4 +25,5 @@ const store = configureStore({
 
 export default store;
 
-export type RootState = ReturnType<typeof rootReducer>;
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;

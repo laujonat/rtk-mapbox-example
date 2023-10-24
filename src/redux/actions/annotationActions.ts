@@ -1,18 +1,20 @@
+import { Feature } from "geojson";
+
 // Action type definitions
-export const ADD_ANNOTATION = "ADD_ANNOTATION";
-export const UPDATE_ANNOTATION = "UPDATE_ANNOTATION";
-export const SELECT_ANNOTATION = "SELECT_ANNOTATION";
-export const REMOVE_ANNOTATION = "REMOVE_ANNOTATION";
+export const ADD_ANNOTATION = "annotations/addAnnotation";
+export const UPDATE_ANNOTATION = "annotations/updateAnnotation";
+export const SELECT_ANNOTATION = "annotations/selectAnnotation";
+export const REMOVE_ANNOTATION = "annotations/removeAnnotation";
 
 // Define action interfaces
 interface AddAnnotationAction {
   type: typeof ADD_ANNOTATION;
-  payload: Annotation;
+  payload: Feature;
 }
 
 interface UpdateAnnotationAction {
   type: typeof UPDATE_ANNOTATION;
-  payload: Annotation;
+  payload: Feature;
 }
 
 interface SelectAnnotationAction {
@@ -26,16 +28,14 @@ interface RemoveAnnotationAction {
 }
 
 // Action creators
-export const addAnnotation = (annotation: Annotation): AddAnnotationAction => ({
+export const addAnnotation = (feature: Feature): AddAnnotationAction => ({
   type: ADD_ANNOTATION,
-  payload: annotation,
+  payload: feature,
 });
 
-export const updateAnnotation = (
-  annotation: Annotation,
-): UpdateAnnotationAction => ({
+export const updateAnnotation = (feature: Feature): UpdateAnnotationAction => ({
   type: UPDATE_ANNOTATION,
-  payload: annotation,
+  payload: feature,
 });
 
 export const selectAnnotation = (

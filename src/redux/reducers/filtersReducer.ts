@@ -1,4 +1,4 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface IFilterSetting {
   featureType: string;
@@ -24,5 +24,4 @@ const filtersSlice = createSlice({
   },
 });
 
-export const { setFilterSettings } = filtersSlice.actions;
 export default filtersSlice.reducer;

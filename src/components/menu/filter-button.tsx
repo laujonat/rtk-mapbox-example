@@ -1,5 +1,6 @@
-import React from "react";
 import "./filter-button.css";
+
+import React from "react";
 
 interface FilterButtonProps {
   onClick: () => void;

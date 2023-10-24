@@ -31,10 +31,13 @@
         "./types/*"
       ],
       "reducers/*": [
-        "redux/reducers/*"
+        "./redux/reducers/*"
+      ],
+      "redux/*": [
+        "./redux/*"
       ],
       "actions/*": [
-        "./redux/actions/*"
+        "./redux/actions/*",
       ],
       "utils/*": [
         "./utils/*"

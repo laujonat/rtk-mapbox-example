@@ -1,22 +1,27 @@
+import { Feature } from "geojson";
+
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-export interface IAnnotationState {
-  annotations: Annotation[];
-  selectedAnnotationId: string | null;
-  filterCriteria: string | null;
-}
 const initialState: IAnnotationState = {
   annotations: [],
   selectedAnnotationId: null,
   filterCriteria: null,
+  placedAnnotations: {
+    type: "FeatureCollection",
+    features: [], // Initially, no annotations are placed
+  },
 };
 
 const annotationsSlice = createSlice({
   name: "annotations",
   initialState,
   reducers: {
-    addAnnotation: (state, action: PayloadAction<Annotation>) => {
-      state.annotations.push(action.payload);
+    addAnnotation: (state, action: PayloadAction<Feature>) => {
+      const newFeatures = [...state.placedAnnotations.features, action.payload];
+      state.placedAnnotations = {
+        ...state.placedAnnotations,
+        features: newFeatures,
+      };
     },
     updateAnnotation: (state, action: PayloadAction<Annotation>) => {
       const index = state.annotations.findIndex(
@@ -32,6 +37,7 @@ const annotationsSlice = createSlice({
       );
     },
     selectAnnotation: (state, action: PayloadAction<string | null>) => {
+      console.log("select payload", action.payload);
       state.selectedAnnotationId = action.payload;
     },
     setFilterCriteria: (state, action: PayloadAction<string | null>) => {
@@ -40,5 +46,4 @@ const annotationsSlice = createSlice({
   },
 });
 
-export const { actions } = annotationsSlice;
 export default annotationsSlice.reducer;

@@ -7,3 +7,10 @@ interface Annotation {
   description?: string; // Optional description or additional information
   type: string; // The type or category of the annotation
 }
+
+interface IAnnotationState {
+  annotations: Annotation[];
+  selectedAnnotationId: string | null;
+  filterCriteria: string | null;
+  placedAnnotations: FeatureCollection;
+}

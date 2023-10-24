@@ -1,7 +1,7 @@
 import { IFilterSetting } from "reducers/filtersReducer";
 
 // Action type definitions
-export const SET_FILTER_SETTINGS = "SET_FILTER_SETTINGS";
+export const SET_FILTER_SETTINGS = "filters/setFilterSettings";
 
 // Define action interfaces for filters
 interface SetFilterSettingsAction {

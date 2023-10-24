@@ -1,0 +1,14 @@
+* {
+  font-size: small;
+}
+
+button {
+  --light-grey: linear-gradient(#fafafa, #ebebeb);
+  --shadow: 0 5px 15px 0 #00000026;
+  --border-radius: 10px;
+  --shadow-active: 0 3px 3px 0 #00000026;
+}
+
+button:hover {
+  box-shadow: var(--shadow-active);
+}

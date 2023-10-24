@@ -1,4 +1,5 @@
 import { combineReducers } from "redux";
+
 import annotationsReducer from "./annotationsReducer";
 import filtersReducer from "./filtersReducer";
 
