@@ -1,10 +1,7 @@
 import MapContext from "context/map-context";
 import { Map } from "mapbox-gl";
 import React, { useContext, useEffect } from "react";
-import {
-  getBase64FromImage,
-  staticAnnotationIcons,
-} from "utils/annotations.utils";
+import { getBase64FromImage, getIconImagePath } from "utils/annotations.utils";
 
 interface MarkerLayerProps {
   id: string;
@@ -14,7 +11,7 @@ interface MarkerLayerProps {
 
 const MapLayer: React.FC<MarkerLayerProps> = ({
   id,
-  annotationType: markerType,
+  annotationType,
   source,
 }) => {
   const mapContext = useContext(MapContext); // Get the map context
@@ -23,7 +20,7 @@ const MapLayer: React.FC<MarkerLayerProps> = ({
   useEffect(() => {
     async function addIconImageToMap() {
       // Get icon image file path
-      const iconImagePath = staticAnnotationIcons[id];
+      const iconImagePath = getIconImagePath(annotationType);
 
       // Create a new Image element
       const img: HTMLImageElement = new Image();
@@ -40,8 +37,8 @@ const MapLayer: React.FC<MarkerLayerProps> = ({
               if (error) {
                 throw error;
               }
-              if (image && !map.hasImage(markerType)) {
-                map.addImage(markerType, image); // Use markerType as the icon uuid
+              if (image && !map.hasImage(annotationType)) {
+                map.addImage(annotationType, image); // Use markerType as the icon uuid
               }
               if (!map.getLayer(id)) {
                 map.addLayer({
@@ -49,7 +46,7 @@ const MapLayer: React.FC<MarkerLayerProps> = ({
                   type: "symbol",
                   source: source,
                   layout: {
-                    "icon-image": markerType,
+                    "icon-image": annotationType,
                     "icon-size": 1.0,
                     "text-field": ["get", "title"],
                     "text-font": [
@@ -59,6 +56,7 @@ const MapLayer: React.FC<MarkerLayerProps> = ({
                     "text-offset": [0, 1.25],
                     "text-anchor": "top",
                   },
+                  filter: ["==", ["get", "type"], annotationType],
                 });
               }
             });
@@ -69,7 +67,7 @@ const MapLayer: React.FC<MarkerLayerProps> = ({
       };
     }
     addIconImageToMap();
-  }, [map, id, markerType, source]);
+  }, [map, id, annotationType, source]);
 
   return null; // No rendering needed, as this component only adds a layer to the map
 };

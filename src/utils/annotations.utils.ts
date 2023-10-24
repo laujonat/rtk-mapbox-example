@@ -72,6 +72,12 @@ export const createNewAnnotationFeature = (
   };
 };
 
+/**
+ * Converts an HTMLImageElement to a Base64-encoded Data URL.
+ *
+ * @param image - The HTMLImageElement to convert.
+ * @returns A Promise that resolves to the Base64 Data URL of the image.
+ */
 export const getBase64FromImage = async (
   image: HTMLImageElement,
 ): Promise<string> => {
@@ -91,3 +97,8 @@ export const getBase64FromImage = async (
 
   return dataURL;
 };
+
+export function getIconImagePath(annotationType: string): string {
+  // Depending on your logic, you can return the image path for each annotationType
+  return staticAnnotationIcons[annotationType];
+}
