@@ -1,4 +1,5 @@
 import MapContext from "context/map-context";
+import { FeatureCollection } from "geojson";
 import { GeoJSONSourceRaw, Map } from "mapbox-gl";
 import React, { useContext, useEffect } from "react";
 
@@ -27,6 +28,13 @@ const MapAnnotationSource: React.FC<MapAnnotationSourceProps> = ({
         if (onSourceAdded) {
           onSourceAdded();
         }
+      } else {
+        const geojsonSource = map.getSource(id) as
+          | mapboxgl.GeoJSONSource
+          | undefined;
+
+        console.log(data);
+        geojsonSource?.setData(data as FeatureCollection);
       }
     }
   }, [map, data, id, onSourceAdded]);

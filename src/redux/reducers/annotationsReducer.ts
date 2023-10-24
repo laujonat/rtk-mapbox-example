@@ -18,6 +18,11 @@ const annotationsSlice = createSlice({
   reducers: {
     addAnnotation: (state, action: PayloadAction<Feature>) => {
       const newFeatures = [...state.placedAnnotations.features, action.payload];
+      // Annotation types available for filter controls
+      const annotationTypes = new Set(
+        newFeatures.map((f) => f.properties.type),
+      );
+      state.filterCriteria = Array.from(annotationTypes);
       state.placedAnnotations = {
         ...state.placedAnnotations,
         features: newFeatures,
@@ -40,7 +45,7 @@ const annotationsSlice = createSlice({
       console.log("select payload", action.payload);
       state.selectedAnnotationId = action.payload;
     },
-    setFilterCriteria: (state, action: PayloadAction<string | null>) => {
+    setFilterCriteria: (state, action: PayloadAction<string[] | null>) => {
       state.filterCriteria = action.payload;
     },
   },

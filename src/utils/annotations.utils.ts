@@ -9,7 +9,10 @@ import marker6Image from "../assets/annotations/mapbox-marker-icon-20px-purple.p
 import marker7Image from "../assets/annotations/mapbox-marker-icon-20px-red.png";
 import marker8Image from "../assets/annotations/mapbox-marker-icon-20px-yellow.png";
 
-export const staticAnnotationIcons = {
+interface AnnotationImage {
+  [key: string]: string;
+}
+export const staticAnnotationIcons: AnnotationImage = {
   marker1: marker1Image,
   marker2: marker2Image,
   marker3: marker3Image,
@@ -67,4 +70,24 @@ export const createNewAnnotationFeature = (
       type: selectedAnnotationId,
     },
   };
+};
+
+export const getBase64FromImage = async (
+  image: HTMLImageElement,
+): Promise<string> => {
+  const canvas: HTMLCanvasElement = document.createElement("canvas");
+  const ctx: CanvasRenderingContext2D | null = canvas.getContext("2d");
+
+  if (!ctx) {
+    throw new Error("Canvas 2D context is not supported");
+  }
+
+  canvas.width = image.width;
+  canvas.height = image.height;
+
+  ctx.drawImage(image, 0, 0);
+
+  const dataURL: string = canvas.toDataURL("image/png");
+
+  return dataURL;
 };
