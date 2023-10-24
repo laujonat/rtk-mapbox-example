@@ -1,0 +1,76 @@
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-button {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 0.7em 1em;
+  padding-left: 0.9em;
+  border-radius: 15px;
+  border: 1px solid var(--light-grey);
+  background-color: #fff;
+}
+
+.selected-option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1em 0.5em 0;
+}
+
+.selected-option span {
+  margin: 0.25em 0.5em 1em;
+}
+
+.dropdown-button {
+  align-items: center;
+  background-color: #fff;
+  border-radius: var(--border-radius);
+  border: 1px solid rgba(0, 0, 0, 0.192);
+  box-shadow: 0px 10px 10px var(--shadow);
+  cursor: pointer;
+  display: flex;
+  height: 50px;
+  justify-content: center;
+  padding: 5px;
+  transition: all 0.3s;
+  /* width: 50px; */
+}
+
+.dropdown-options {
+  list-style: none; /* Remove bullet points */
+  padding: 0; /* Remove default padding */
+  position: absolute; /* Position the dropdown options absolutely */
+  top: 100%; /* Position below the button */
+  left: 0; /* Align with the button's left edge */
+  display: none; /* Hide by default */
+  z-index: 1000; /* Set a high z-index to ensure it's on top */
+}
+
+.dropdown-options li {
+  cursor: pointer;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  margin: 1em 1em 0;
+}
+
+.option img {
+  margin: 1em 0.5em 0 0;
+}
+
+/* Style for open dropdown */
+.dropdown.open .dropdown-options {
+  display: block;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}

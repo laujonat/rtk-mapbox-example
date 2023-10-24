@@ -1,0 +1,4 @@
+{
+    "editor.formatOnSave": true,
+    "vim.targets.bracketObjects.enable": false
+}

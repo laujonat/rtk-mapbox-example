@@ -1,5 +1,18 @@
 .menu {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  margin: 1em;
+  padding: 1em;
+  position: absolute;
   width: 400px;
-  height: 150px;
-  border: 1px solid red;
+  z-index: 9999;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+.menu-select {
+  display: flex;
+  gap: 0.25em;
 }

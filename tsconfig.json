@@ -1,5 +1,8 @@
 {
   "compilerOptions": {
+    "types": [
+      "node"
+    ],
     "target": "es5",
     "lib": [
       "dom",
@@ -18,9 +21,28 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "baseUrl": "./src",
+    "paths": {
+      "components/*": [
+        "./components/*"
+      ],
+      "types/*": [
+        "./types/*"
+      ],
+      "reducers/*": [
+        "redux/reducers/*"
+      ],
+      "actions/*": [
+        "./redux/actions/*"
+      ],
+      "utils/*": [
+        "./utils/*"
+      ],
+    }
   },
   "include": [
-    "src"
+    "src",
+    "src/types/index.d.ts"
   ]
 }
