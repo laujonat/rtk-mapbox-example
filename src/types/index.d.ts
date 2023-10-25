@@ -13,4 +13,5 @@ interface IAnnotationState {
   selectedAnnotationId: string | null;
   filterCriteria: Array<string> | null;
   placedAnnotations: FeatureCollection;
+  annotationTypeToFeatures: Record<string, Feature[]>;
 }

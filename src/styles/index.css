@@ -11,3 +11,14 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+details summary > * {
+  display: inline;
+}
+
+summary::-webkit-details-marker {
+  color: blue;
+}
+summary:focus {
+  outline-style: none;
+}

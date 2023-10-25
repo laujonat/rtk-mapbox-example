@@ -48,6 +48,7 @@ const MapLayer: React.FC<MarkerLayerProps> = ({
                   layout: {
                     "icon-image": annotationType,
                     "icon-size": 1.0,
+                    "icon-allow-overlap": true,
                     "text-field": ["get", "title"],
                     "text-font": [
                       "Open Sans Semibold",

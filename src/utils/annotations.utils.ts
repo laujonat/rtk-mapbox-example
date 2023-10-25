@@ -13,14 +13,14 @@ interface AnnotationImage {
   [key: string]: string;
 }
 export const staticAnnotationIcons: AnnotationImage = {
-  marker1: marker1Image,
-  marker2: marker2Image,
-  marker3: marker3Image,
-  marker4: marker4Image,
-  marker5: marker5Image,
-  marker6: marker6Image,
-  marker7: marker7Image,
-  marker8: marker8Image,
+  alpha: marker1Image,
+  beta: marker2Image,
+  gamma: marker3Image,
+  delta: marker4Image,
+  epsilon: marker5Image,
+  zeta: marker6Image,
+  eta: marker7Image,
+  theta: marker8Image,
 };
 
 /**
@@ -65,6 +65,7 @@ export const createNewAnnotationFeature = (
     },
     properties: {
       id: id,
+      visibility: "visible", // individual annotation visibility (visible || none)
       title: selectedAnnotationId,
       description: "Optional description",
       type: selectedAnnotationId,
@@ -99,6 +100,5 @@ export const getBase64FromImage = async (
 };
 
 export function getIconImagePath(annotationType: string): string {
-  // Depending on your logic, you can return the image path for each annotationType
   return staticAnnotationIcons[annotationType];
 }

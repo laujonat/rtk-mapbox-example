@@ -3,12 +3,13 @@ import { Feature } from "geojson";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const initialState: IAnnotationState = {
-  annotations: [],
+  annotations: [], // unused
   selectedAnnotationId: null,
   filterCriteria: null,
+  annotationTypeToFeatures: {}, // Initialize as an empty object
   placedAnnotations: {
     type: "FeatureCollection",
-    features: [], // Initially, no annotations are placed
+    features: [],
   },
 };
 
@@ -18,11 +19,25 @@ const annotationsSlice = createSlice({
   reducers: {
     addAnnotation: (state, action: PayloadAction<Feature>) => {
       const newFeatures = [...state.placedAnnotations.features, action.payload];
-      // Annotation types available for filter controls
-      const annotationTypes = new Set(
-        newFeatures.map((f) => f.properties.type),
-      );
-      state.filterCriteria = Array.from(annotationTypes);
+
+      // Create an object to temporarily store features by annotation type
+      const featuresByType: Record<string, Feature[]> = {};
+
+      // Iterate through the new features and organize them by type
+      newFeatures.forEach((feature) => {
+        const type = feature.properties.type;
+        if (!featuresByType[type]) {
+          featuresByType[type] = [];
+        }
+        featuresByType[type].push(feature);
+      });
+
+      // Update the annotationTypeToFeatures mapping with the organized features
+      state.annotationTypeToFeatures = { ...featuresByType };
+
+      // Update the filterCriteria
+      state.filterCriteria = Object.keys(featuresByType);
+
       state.placedAnnotations = {
         ...state.placedAnnotations,
         features: newFeatures,

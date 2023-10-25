@@ -7,3 +7,6 @@ export const useAnnotations = () => {
 export const useAnnotationTypeId = () => {
   return useAppSelector((state) => state.annotations.selectedAnnotationId);
 };
+export const useFeaturesByAnnotationType = () => {
+  return useAppSelector((state) => state.annotations.annotationTypeToFeatures);
+};

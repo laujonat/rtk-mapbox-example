@@ -1,0 +1,100 @@
+.filter-list {
+  height: 40vh;
+  overflow-y: scroll;
+  box-sizing: content-box; /* Ensure the padding is included in the width */
+}
+
+.filter-list details {
+  display: list-item;
+  border-top: 1px solid #ddd;
+}
+
+/* Filter item content */
+.filter-item-content {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  cursor: pointer;
+}
+
+.filter-panel.open {
+  display: block;
+  max-height: fit-content;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+.filter-list summary {
+  padding: 0 1em;
+}
+.filter-list summary::-webkit-details-marker {
+  color: #007bff; /* Default color of the arrow */
+  font-size: 16px; /* Default size of the arrow */
+  margin-right: 8px;
+  transition: transform 0.3s ease; /* Add a transition for smooth rotation */
+}
+
+/* Style the arrow when the details element is open */
+.filter-list details[open] summary::-webkit-details-marker {
+  transform: rotate(-135deg); /* Rotate the arrow when open */
+}
+
+.filter-item {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  padding: 0 1em;
+}
+
+.filter-item img {
+  margin: 1em;
+}
+
+.filter-item span {
+  display: flex;
+  align-items: center;
+  margin: 0 0 1em;
+  text-align: end;
+}
+
+.filter-item-text span {
+  display: inline;
+  color: #575757;
+}
+
+/* Toggle button */
+.toggle-button {
+  cursor: pointer;
+  border: 1px solid var(--light-grey);
+  border-radius: 4px;
+  padding: 4px 8px;
+}
+
+.toggle-button.active {
+  background-color: #007bff;
+  color: #ffffff;
+}
+
+.toggle-button input[type="radio"]:checked + .custom-radio {
+  background-color: #007bff;
+}
+
+.arrow {
+  border: solid black;
+  border-width: 0 2px 2px 0;
+  display: inline-block;
+  padding: 2px;
+  overflow: visible;
+  z-index: 1;
+}
+
+.up {
+  transform: rotate(-135deg);
+  -webkit-transform: rotate(-135deg);
+}
+
+.down {
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}

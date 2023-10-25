@@ -1,20 +1,12 @@
 import "./dropdown.css";
 
+import Image from "components/image/image";
 import React, { useState } from "react";
 
 interface DropdownProps {
   options: Record<string, string>;
   onSelect: (selectedOption: string) => void;
 }
-
-interface ImageProps {
-  src: string;
-  alt: string;
-}
-
-const Image: React.FC<ImageProps> = ({ src, alt }) => {
-  return <img src={src} alt={alt} />;
-};
 
 const Dropdown: React.FC<DropdownProps> = ({ options, onSelect }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -47,7 +39,7 @@ const Dropdown: React.FC<DropdownProps> = ({ options, onSelect }) => {
           {Object.keys(options).map((option) => (
             <li key={option} onClick={() => handleOptionClick(option)}>
               <div className="option">
-                <img src={options[option]} alt={option} />
+                <Image src={options[option]} alt={option} />
                 <span>{option}</span>
               </div>
             </li>

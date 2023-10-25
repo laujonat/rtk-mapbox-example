@@ -15,4 +15,6 @@
 .menu-select {
   display: flex;
   gap: 0.25em;
+  width: 100%;
+  position: relative;
 }

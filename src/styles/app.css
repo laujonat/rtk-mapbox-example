@@ -3,6 +3,7 @@
 }
 
 button {
+  --secondary: #575757;
   --light-grey: linear-gradient(#fafafa, #ebebeb);
   --shadow: 0 5px 15px 0 #00000026;
   --border-radius: 10px;

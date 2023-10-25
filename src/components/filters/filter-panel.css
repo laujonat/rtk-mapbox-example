@@ -1,0 +1,48 @@
+/* Container for the filter panel */
+.filter-panel {
+  display: none;
+  /* Hide by default */
+  padding: 0.7em 1em;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid #e1e1e1;
+  /* Border color */
+  border-radius: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  top: 100%;
+  /* Position below the button */
+  left: 0;
+  /* Align with the left edge of the button */
+  width: 100%;
+  /* Full width of the button */
+  z-index: 1;
+  /* Ensure it's above other elements */
+  overflow: hidden; /* Hide scrollbars */
+  /* Enable vertical scrolling if content overflows */
+  max-height: 0;
+  /* Initially hidden height */
+  transition: max-height 0.3s ease-in-out;
+  /* Smooth transition effect */
+}
+
+/* Add flex display to the header */
+.filter-panel-header {
+  display: flex;
+  justify-content: space-between; /* Space content evenly horizontally */
+  align-items: center; /* Center items vertically */
+  background-color: #ffffff; /* Set your desired background color */
+  padding: 10px; /* Add padding as needed */
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+}

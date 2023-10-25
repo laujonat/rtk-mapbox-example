@@ -18,12 +18,15 @@ import MapLayer from "./map-layer";
 const Map = () => {
   const { map, mapContainerRef } = useMap();
   const dispatch = useAppDispatch();
-  const [infoContent, setInfoContent] = useState({ coord: "", zoom: "" });
+
   const selectedAnnotationId = useAnnotationTypeId();
   const placedAnnotationSymbols = useAnnotationSymbols();
+
   const filterCriteria = useAppSelector(
     (state) => state.annotations.filterCriteria,
   );
+  // Prints out canvas information into panel for debugging
+  const [infoContent, setInfoContent] = useState({ coord: "", zoom: "" });
 
   const onAnnotationClick = useCallback(
     (e: { point: any; lngLat: { wrap: () => { lat: any; lng: any } } }) => {
@@ -31,13 +34,11 @@ const Map = () => {
         ...prevContent,
         coord: JSON.stringify(e.point) + "\n" + JSON.stringify(e.lngLat.wrap()),
       }));
-      const { lat, lng } = e.lngLat.wrap();
-      console.log(lat, lng);
       if (selectedAnnotationId) {
         const { lng, lat } = e.lngLat.wrap();
         const feature = createNewAnnotationFeature(
           selectedAnnotationId,
-          [lng, lat],
+          [lng, lat], // Point
           placedAnnotationSymbols,
         );
         // Dispatch the addAnnotation action to update annotations state
