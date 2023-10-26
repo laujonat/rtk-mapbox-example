@@ -1,10 +1,13 @@
+import { Feature } from "geojson";
 import { useCallback } from "react";
+import { updateAnnotation } from "redux/actions/annotationActions";
 import {
   setFilterVisibility,
   toggleAllLayerAnnotations,
 } from "redux/actions/filterActions";
 import { RootState } from "redux/store";
 
+import { useAnnotations } from "./annotations";
 import { useAppDispatch, useAppSelector } from "./store";
 
 export const useFilters = () => {
@@ -45,12 +48,31 @@ export function useLayerFilterVisibility() {
  */
 export default function useFeatureVisibility() {
   const dispatch = useAppDispatch();
+  const { features } = useAnnotations();
 
   const toggleFeatureVisibility = useCallback(
-    (filterCriteria: string, featureId: number, visible: boolean) => {
+    async (filterCriteria: string, featureId: number, visible: boolean) => {
       dispatch(setFilterVisibility(filterCriteria, featureId, visible));
+
+      const featureToUpdate = features.find(
+        (feature: Feature) => feature?.properties?.id === featureId,
+      );
+
+      if (featureToUpdate) {
+        // Create an updated Feature object by merging the existing feature with updated visibility
+        const updatedFeature: Feature = {
+          ...featureToUpdate,
+          properties: {
+            ...featureToUpdate.properties,
+            visibility: visible ? "visible" : "none",
+          },
+        };
+
+        // Dispatch the updateAnnotation action
+        dispatch(updateAnnotation(updatedFeature));
+      }
     },
-    [dispatch],
+    [dispatch, features],
   );
 
   return {

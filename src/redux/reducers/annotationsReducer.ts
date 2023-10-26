@@ -43,12 +43,19 @@ const annotationsSlice = createSlice({
         features: newFeatures,
       };
     },
-    updateAnnotation: (state, action: PayloadAction<Annotation>) => {
-      const index = state.annotations.findIndex(
-        (annotation) => annotation.id === action.payload.id,
+    updateAnnotation: (state, action: PayloadAction<Partial<Feature>>) => {
+      const index = state.placedAnnotations.features.findIndex(
+        (feature: Feature) =>
+          feature?.properties?.id === action.payload?.properties?.id,
       );
+      console.log(action.payload);
       if (index !== -1) {
-        state.annotations[index] = action.payload;
+        // Check if action.payload has the properties object and visibility property
+        if (action.payload?.properties?.visibility !== undefined) {
+          // Update the visibility field in the feature's properties
+          state.placedAnnotations.features[index].properties.visibility =
+            action.payload.properties.visibility;
+        }
       }
     },
     removeAnnotation: (state, action: PayloadAction<string>) => {

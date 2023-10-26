@@ -41,7 +41,6 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ filterCriteria }) => {
           };
         });
       });
-      console.log(updatedFilters);
 
       // Dispatch an action to update the filters in your Redux state
       dispatch(updateFilterTypes(updatedFilters));

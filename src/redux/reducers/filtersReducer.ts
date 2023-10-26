@@ -35,7 +35,6 @@ const filtersSlice = createSlice({
       }>,
     ) {
       const { filterCriteria, featureId, visible } = action.payload;
-      console.log(featureId, visible);
       return {
         ...state,
         features: {
@@ -73,7 +72,6 @@ const filtersSlice = createSlice({
       state,
       action: PayloadAction<IFilterVisibilityState>,
     ) => {
-      console.log(action.payload);
       Object.keys(action.payload).forEach((filterCriteria) => {
         if (!state.layerVisibility.hasOwnProperty(filterCriteria)) {
           state.layerVisibility[filterCriteria] = true; // Create and set to true

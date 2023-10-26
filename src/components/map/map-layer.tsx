@@ -34,6 +34,20 @@ const MapLayer: React.FC<MarkerLayerProps> = ({
   }, [map, annotationType, visibility]);
 
   useEffect(() => {
+    if (!map) return;
+
+    const layer = map.getLayer(annotationType);
+
+    if (layer) {
+      map.setLayoutProperty(
+        layer.id,
+        "visibility",
+        visibility ? "visible" : "none",
+      );
+    }
+  }, [map, annotationType, visibility]);
+
+  useEffect(() => {
     async function addIconImageToMap() {
       // Get icon image file path
       const iconImagePath = getIconImagePath(annotationType);
@@ -74,7 +88,11 @@ const MapLayer: React.FC<MarkerLayerProps> = ({
                     "text-offset": [0, 1.25],
                     "text-anchor": "top",
                   },
-                  filter: ["==", ["get", "type"], annotationType],
+                  filter: [
+                    "all", // Combine multiple conditions with "all" (logical AND)
+                    ["==", ["get", "type"], annotationType],
+                    ["==", ["get", "visibility"], "visible"],
+                  ],
                 });
               }
             });

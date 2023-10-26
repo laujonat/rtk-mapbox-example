@@ -6,6 +6,7 @@ export enum VisibilityFilterActionTypes {
   SET_FILTER_VISIBILITY = "filters/setFilterVisibility",
   TOGGLE_ALL_LAYER_ANNOTATIONS = "filters/toggleAllLayerAnnotations",
   UPDATE_FILTER_TYPES = "filters/updateFilterTypes",
+  UPDATE_FILTER_VISIBILITY = "filters/updateFilterVisibility",
 }
 
 export const toggleAllLayerAnnotations = (layerState: {

@@ -33,7 +33,6 @@ export const useMap = () => {
       });
 
       map.on("load", function () {
-        console.log(map.getStyle());
         // Add image of buZilding and place on map
         map.addSource("building-image", {
           type: "image",

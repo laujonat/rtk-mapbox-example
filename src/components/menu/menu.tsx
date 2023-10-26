@@ -17,7 +17,6 @@ const Menu: React.FC<MenuProps> = () => {
     (state) => state.annotations.filterCriteria,
   );
   const handleAnnotationSelect = (annotationId: string) => {
-    console.log("marker selected", annotationId);
     // Dispatch the selectAnnotation action with the selected marker
     dispatch(selectAnnotation(annotationId));
   };
@@ -25,7 +24,6 @@ const Menu: React.FC<MenuProps> = () => {
   return (
     <div className="menu">
       <div className="menu-select">
-        {/* Dropdown to select markers */}
         <Dropdown
           options={staticAnnotationIcons}
           onSelect={handleAnnotationSelect}

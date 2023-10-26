@@ -24,11 +24,12 @@ const FilterList: React.FC<FilterListProps> = ({ filterCriteria }) => {
   >(() => {
     const initialCheckboxes: Record<string, boolean> = {};
     Object.keys(filters).forEach((filter) => {
-      // Check if the filterCriteria includes the filter, and set it as checked
-      initialCheckboxes[filter] = true;
+      initialCheckboxes[filter] = false;
     });
     return initialCheckboxes;
   });
+  // Use state to track the open/closed state of each details element
+  const [openDetails, setOpenDetails] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     // When a new annotation is added, we need to synchronize the list of checkmarks we are tracking
@@ -54,15 +55,12 @@ const FilterList: React.FC<FilterListProps> = ({ filterCriteria }) => {
     }));
   };
 
-  // Use state to track the open/closed state of each details element
-  const [openDetails, setOpenDetails] = useState<Record<string, boolean>>({});
-
   // Function to toggle the open/closed state of a details element
   const toggleDetails = (filter: string) => {
-    setOpenDetails({
-      ...openDetails,
-      [filter]: !openDetails[filter],
-    });
+    setOpenDetails((prevOpenDetails) => ({
+      ...prevOpenDetails,
+      [filter]: !prevOpenDetails[filter],
+    }));
   };
 
   const visibilityFilters = useFeaturesByAnnotationType();
@@ -72,12 +70,7 @@ const FilterList: React.FC<FilterListProps> = ({ filterCriteria }) => {
   return (
     <div className="filter-list">
       {Object.keys(filters)?.map((filter, i) => (
-        <details
-          key={filter + i}
-          open={openDetails[filter]}
-          onChange={() => toggleDetails(filter)}
-          onClick={(e) => e.stopPropagation()}
-        >
+        <details key={filter + i} onToggle={(e) => toggleDetails(filter)}>
           <summary className="filter-item">
             <div key={filter} className="filter-item-content">
               <i className={`arrow ${openDetails[filter] ? "up" : "down"}`}></i>
@@ -108,10 +101,14 @@ const FilterList: React.FC<FilterListProps> = ({ filterCriteria }) => {
                     <Image src={staticAnnotationIcons[filter]} alt={filter} />
                     <span className="filter-item-text">{filter}</span>
                   </div>
-                  <label className="toggle-button">
+                  <label
+                    htmlFor={`features-${filter}-${j}`}
+                    className="toggle-button"
+                  >
                     <input
+                      id={`features-${filter}-${j}`}
                       type="checkbox"
-                      name="featureCheckboxGroup"
+                      name={`features-${filter}-${j}`}
                       checked={filters[filter][j].visible}
                       onChange={(e) => {
                         e.stopPropagation();
