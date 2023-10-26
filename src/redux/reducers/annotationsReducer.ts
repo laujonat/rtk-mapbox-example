@@ -67,9 +67,6 @@ const annotationsSlice = createSlice({
       console.log("select payload", action.payload);
       state.selectedAnnotationId = action.payload;
     },
-    setFilterCriteria: (state, action: PayloadAction<string[] | null>) => {
-      state.filterCriteria = action.payload;
-    },
   },
 });
 
