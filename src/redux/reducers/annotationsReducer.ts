@@ -46,7 +46,8 @@ const annotationsSlice = createSlice({
     updateAnnotation: (state, action: PayloadAction<Partial<Feature>>) => {
       const index = state.placedAnnotations.features.findIndex(
         (feature: Feature) =>
-          feature?.properties?.id === action.payload?.properties?.id,
+          feature?.properties?.id === action.payload?.properties?.id &&
+          feature?.properties?.type === action.payload?.properties?.type,
       );
       console.log(action.payload);
       if (index !== -1) {

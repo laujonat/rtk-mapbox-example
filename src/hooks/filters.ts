@@ -55,7 +55,9 @@ export default function useFeatureVisibility() {
       dispatch(setFilterVisibility(filterCriteria, featureId, visible));
 
       const featureToUpdate = features.find(
-        (feature: Feature) => feature?.properties?.id === featureId,
+        (feature: Feature) =>
+          feature?.properties?.id === featureId &&
+          feature?.properties?.type === filterCriteria,
       );
 
       if (featureToUpdate) {
@@ -64,6 +66,7 @@ export default function useFeatureVisibility() {
           ...featureToUpdate,
           properties: {
             ...featureToUpdate.properties,
+            type: filterCriteria,
             visibility: visible ? "visible" : "none",
           },
         };
