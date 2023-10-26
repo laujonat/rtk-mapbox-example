@@ -2,37 +2,56 @@ import "./filter-list.css";
 
 import Image from "components/image/image";
 import { useFeaturesByAnnotationType } from "hooks/annotations";
-import { useAppDispatch } from "hooks/store";
-import React, { useState } from "react";
-import { toggleAllLayerAnnotations } from "redux/actions/filterActions";
+import useFeatureVisibility, {
+  useFilters,
+  useLayerFilterVisibility,
+} from "hooks/filters";
+import React, { useEffect, useState } from "react";
 import { staticAnnotationIcons } from "utils/annotations.utils";
 
 interface FilterListProps {
   filterCriteria: string[];
-  checkedItems: { [key: string]: boolean };
-  onTypeToggleCheck: (filter: string) => void;
 }
 
-const FilterList: React.FC<FilterListProps> = ({
-  filterCriteria,
-  checkedItems,
-  onTypeToggleCheck: onToggleCheck,
-}) => {
-  const dispatch = useAppDispatch();
+const FilterList: React.FC<FilterListProps> = ({ filterCriteria }) => {
+  const { toggleVisibility } = useLayerFilterVisibility();
+  const { toggleFeatureVisibility } = useFeatureVisibility();
+
+  const filters = useFilters();
   // Use state to track the checked checkboxes for each filter
   const [checkedCheckboxes, setCheckedCheckboxes] = useState<
     Record<string, boolean>
-  >(filterCriteria.reduce((acc, filter) => ({ ...acc, [filter]: false }), {}));
+  >(() => {
+    const initialCheckboxes: Record<string, boolean> = {};
+    Object.keys(filters).forEach((filter) => {
+      // Check if the filterCriteria includes the filter, and set it as checked
+      initialCheckboxes[filter] = true;
+    });
+    return initialCheckboxes;
+  });
 
-  // Function to toggle the open/closed state of a details element
-  const handleLayerVisibilityChange = (filter: string) => {
-    // Toggle the checkbox state for the filter
-    // setCheckedCheckboxes({
-    //   ...checkedCheckboxes,
-    //   [filter]: !checkedCheckboxes[filter],
-    // });
-    console.log("FILTER", filter);
-    dispatch(toggleAllLayerAnnotations(filter));
+  useEffect(() => {
+    // When a new annotation is added, we need to synchronize the list of checkmarks we are tracking
+    const initialCheckboxes: Record<string, boolean> = {};
+
+    filterCriteria.forEach((filter) => {
+      initialCheckboxes[filter] = true;
+    });
+    setCheckedCheckboxes((prev) => ({
+      ...prev,
+      ...initialCheckboxes,
+    }));
+  }, [filterCriteria]);
+
+  const handleToggleCheck = (filter: string) => {
+    // Toggle visibility
+    toggleVisibility(filter, !checkedCheckboxes[filter]);
+
+    // Update checked state
+    setCheckedCheckboxes((prev) => ({
+      ...prev,
+      [filter]: !prev[filter],
+    }));
   };
 
   // Use state to track the open/closed state of each details element
@@ -47,75 +66,63 @@ const FilterList: React.FC<FilterListProps> = ({
   };
 
   const visibilityFilters = useFeaturesByAnnotationType();
+  useEffect(() => {
+    console.log(visibilityFilters);
+  }, [visibilityFilters]);
   return (
     <div className="filter-list">
-      {filterCriteria?.map((filter, i) => (
+      {Object.keys(filters)?.map((filter, i) => (
         <details
           key={filter + i}
           open={openDetails[filter]}
-          onClick={(e) => {
-            e.preventDefault(); // Prevent the default behavior of the details element
-            toggleDetails(filter);
-          }}
+          onChange={() => toggleDetails(filter)}
+          onClick={(e) => e.stopPropagation()}
         >
           <summary className="filter-item">
             <div key={filter} className="filter-item-content">
               <i className={`arrow ${openDetails[filter] ? "up" : "down"}`}></i>
-
               <Image src={staticAnnotationIcons[filter]} alt={filter} />
               <span className="filter-item-text">
                 {filter} &nbsp;
                 <p>&#40; {visibilityFilters[filter].length} &#41;</p>
               </span>
             </div>
-            <label className="toggle-button">
-              <input
-                type="checkbox"
-                name="layerCheckboxGroup"
-                checked={checkedItems[filter] || false}
-                onChange={(e) => {
-                  e.preventDefault();
-                  handleLayerVisibilityChange(filter);
-                }}
-              />
-              {/* <span className="custom-checkmark"></span> */}
-            </label>
+            <label htmlFor={filter} className="toggle-button" />
+            <input
+              id={filter}
+              type="checkbox"
+              name="layerCheckboxGroup"
+              value={filter}
+              checked={checkedCheckboxes[filter]}
+              onChange={(e) => {
+                e.stopPropagation();
+                handleToggleCheck(filter);
+              }}
+            />
           </summary>
           <ul>
-            {visibilityFilters[filter]?.map((feature, j) => {
-              console.log("feature", feature);
+            {Object.values(filters[filter])?.map((_, j) => {
               return (
                 <li className="filter-item" key={j}>
-                  {/* Render feature details here */}
                   <div key={filter} className="filter-item-content">
-                    <Image
-                      src={staticAnnotationIcons[filter]}
-                      alt={filter}
-                      width="20px" // Set your desired width
-                      height="48px" // Set your desired height
-                    />
+                    <Image src={staticAnnotationIcons[filter]} alt={filter} />
                     <span className="filter-item-text">{filter}</span>
                   </div>
                   <label className="toggle-button">
                     <input
                       type="checkbox"
                       name="featureCheckboxGroup"
-                      checked={checkedItems[filter] || false}
-                      onChange={() => {
-                        // Dispatch the action to set filter visibility here
-                        // dispatch(
-                        //   setFilterVisibility({
-                        //     featureFilterType: filter,
-                        //     featureId: j,
-                        //     visible: !checkedItems[filter],
-                        //   }),
-                        // );
-                        // You can also call the onToggleCheck function if needed
-                        // onToggleCheck(filter);
+                      checked={filters[filter][j].visible}
+                      onChange={(e) => {
+                        e.stopPropagation();
+                        toggleFeatureVisibility(
+                          filter,
+                          j,
+                          !filters[filter][j].visible,
+                        );
                       }}
                     />
                   </label>
-                  {/* Add more feature details as needed */}
                 </li>
               );
             })}

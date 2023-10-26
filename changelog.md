@@ -11,3 +11,4 @@
 ## Improvements
 
 - Keyboard controls to meet accessibility standards
+- I didn't use redux slices much before so I didn't realize I did not need to write any of the action creators :)

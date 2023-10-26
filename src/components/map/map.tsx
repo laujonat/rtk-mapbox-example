@@ -18,9 +18,12 @@ import MapLayer from "./map-layer";
 const Map = () => {
   const { map, mapContainerRef } = useMap();
   const dispatch = useAppDispatch();
-
   const selectedAnnotationId = useAnnotationTypeId();
   const placedAnnotationSymbols = useAnnotationSymbols();
+  // const filters = useFilters();
+  const layerVisibility = useAppSelector(
+    (state) => state.filters.layerVisibility,
+  );
 
   const filterCriteria = useAppSelector(
     (state) => state.annotations.filterCriteria,
@@ -89,6 +92,7 @@ const Map = () => {
             annotationType={type}
             id={type}
             source="annotations-src"
+            visibility={layerVisibility[type]}
           />
         ))}
       <pre id="info">

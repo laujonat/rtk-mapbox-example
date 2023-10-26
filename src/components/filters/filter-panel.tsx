@@ -4,7 +4,7 @@ import { useFeaturesByAnnotationType } from "hooks/annotations";
 import { useFilters } from "hooks/filters";
 import { useAppDispatch } from "hooks/store";
 import React, { useEffect, useState } from "react";
-import { updateFilterCriteria } from "redux/actions/filterActions";
+import { updateFilterTypes } from "redux/actions/filterActions";
 
 import FilterButton from "./filter-button";
 import FilterList from "./filter-list";
@@ -14,15 +14,10 @@ interface FilterPanelProps {
   onToggle?: (filter: string, checked: boolean) => void;
 }
 
-const FilterPanel: React.FC<FilterPanelProps> = ({
-  filterCriteria,
-  onToggle,
-}) => {
+const FilterPanel: React.FC<FilterPanelProps> = ({ filterCriteria }) => {
   const dispatch = useAppDispatch();
   const [isFilterPanelOpen, setIsFilterPanelOpen] = useState(false);
-  const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>(
-    {},
-  );
+
   const annotationTypeFilters = useFeaturesByAnnotationType();
   const filters = useFilters();
 
@@ -46,28 +41,19 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
           };
         });
       });
-
       console.log(updatedFilters);
 
       // Dispatch an action to update the filters in your Redux state
-      dispatch(updateFilterCriteria(updatedFilters));
+      dispatch(updateFilterTypes(updatedFilters));
     }
-  }, [annotationTypeFilters]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [annotationTypeFilters, dispatch]);
+
   // Function to toggle the filter panel
   const toggleFilterPanel = () => {
     setIsFilterPanelOpen(!isFilterPanelOpen);
   };
 
-  const handleToggleCheck = (filter: string) => {
-    setCheckedItems((prevCheckedItems) => ({
-      ...prevCheckedItems,
-      [filter]: !prevCheckedItems[filter],
-    }));
-    // dispatch(setAnnotationTypeVisibility(filter, !checkedItems[filter]));
-
-    // Call the onToggle callback with the filter and checked status
-    if (onToggle) onToggle(filter, !checkedItems[filter]);
-  };
   return (
     <>
       <FilterButton onClick={toggleFilterPanel} />
@@ -84,11 +70,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
           </div>
         </div>
         {isFilterPanelOpen && (
-          <FilterList
-            filterCriteria={filterCriteria as []}
-            checkedItems={checkedItems}
-            onTypeToggleCheck={handleToggleCheck}
-          />
+          <FilterList filterCriteria={filterCriteria as []} />
         )}
       </dialog>
     </>
