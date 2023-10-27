@@ -10,4 +10,6 @@ To run this app locally:
 
 The app will start on http://localhost:3000
 
+![image](https://github.com/laujonat/rtk-mapbox-example/assets/3301828/484c0480-c74b-421d-90bb-5dca9aefbc71)
+
 
